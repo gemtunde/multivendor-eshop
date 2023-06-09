@@ -9,26 +9,28 @@ const cors = require("cors");
 //middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use("/", express.static("uploads"));
-app.use(bodyParser.urlencoded({extended : true, limits:"50mb"}));
+app.use(bodyParser.urlencoded({ extended: true, limits: "50mb" }));
 //app.use(fileUpload({useTempFiles : true}));
 
-
 //config
-if(process.env.NODE_ENV !== "PRODUCTION"){
-    require("dotenv").config({
-        path : "backend/config/.env"
-    })
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({
+    path: "backend/config/.env",
+  });
 }
 
 //import routes
 const user = require("./controller/user");
 app.use("/api/user", user);
 
-
 //error handling
-app.use(ErrorHandler)
+app.use(ErrorHandler);
 
-
-module.exports = app ;
+module.exports = app;
